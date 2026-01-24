@@ -250,87 +250,88 @@
       margin-top: 0.25rem;
     }
 
-    /* Rainfall Gauges */
-    .rainfall-container {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.8s ease-out 1s forwards;
-    }
-
-    .rainfall-gauge {
-      background: linear-gradient(135deg, rgba(0, 122, 255, 0.15) 0%, rgba(0, 200, 255, 0.08) 100%);
-      border: 1px solid rgba(0, 180, 255, 0.25);
-      border-radius: 16px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    /* Rainfall Widget */
+    .rainfall-widget {
+      max-width: 1400px;
+      margin: 3rem auto 0;
+      background: linear-gradient(135deg, rgba(45, 45, 47, 0.4) 0%, rgba(29, 29, 31, 0.4) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 2.5rem 3rem;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      min-width: 180px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out 1s forwards;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .rainfall-icon {
-      font-size: 1.8rem;
-      line-height: 1;
+    .rainfall-widget:hover {
+      transform: translateY(-8px);
+      border-color: rgba(0, 217, 255, 0.5);
+      box-shadow: 0 20px 60px rgba(0, 217, 255, 0.2);
     }
 
-    .rainfall-bar-container {
-      width: 8px;
-      height: 50px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      overflow: hidden;
+    .rainfall-title {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .rainfall-stats {
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
     }
 
-    .rainfall-bar {
-      width: 100%;
-      height: 0%;
-      background: linear-gradient(to top, #0077ff, #00d4ff);
-      border-radius: 4px;
-      transition: height 1s ease-out;
+    .rainfall-stat {
+      text-align: center;
     }
 
-    .rainfall-info {
-      flex: 1;
+    .rainfall-divider {
+      width: 1px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.15);
     }
 
     .rainfall-value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.2;
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .rainfall-label {
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      margin-top: 0.2rem;
+      letter-spacing: 0.05em;
     }
 
     @media (max-width: 500px) {
-      .rainfall-container {
-        flex-direction: column;
-        align-items: center;
+      .rainfall-widget {
+        padding: 2rem 1.5rem;
+        margin: 2rem 1rem 0;
       }
-      .rainfall-gauge {
-        min-width: 200px;
+      .rainfall-stats {
+        gap: 1.5rem;
       }
     }
 
     /* Shark Attack Proximity Widgets */
     .proximity-grid {
       max-width: 1400px;
-      margin: 3rem auto 0;
+      margin: 2rem auto 0;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2rem;
@@ -340,8 +341,7 @@
       background: linear-gradient(135deg, rgba(45, 45, 47, 0.4) 0%, rgba(29, 29, 31, 0.4) 100%);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 24px;
-      padding: 3rem 2rem;
-      text-align: center;
+      padding: 2.5rem 2rem;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       opacity: 0;
@@ -360,8 +360,36 @@
       box-shadow: 0 20px 60px rgba(255, 59, 48, 0.2);
     }
 
+    .proximity-title {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .proximity-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .proximity-stat {
+      text-align: center;
+      flex: 1;
+    }
+
+    .proximity-divider {
+      width: 1px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
     .proximity-value {
-      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
       font-weight: 800;
       letter-spacing: -0.02em;
       margin-bottom: 0.5rem;
@@ -372,7 +400,7 @@
     }
 
     .proximity-label {
-      font-size: 1.1rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
       font-weight: 500;
       text-transform: uppercase;
@@ -383,6 +411,9 @@
       .proximity-grid {
         grid-template-columns: 1fr;
         padding: 0 1rem;
+      }
+      .proximity-stats {
+        gap: 1rem;
       }
     }
 
@@ -702,26 +733,18 @@
       </div>
     </div>
 
-    <!-- Rainfall Gauges -->
-    <div class="rainfall-container">
-      <div class="rainfall-gauge" id="rainfall24h">
-        <div class="rainfall-icon">💧</div>
-        <div class="rainfall-bar-container">
-          <div class="rainfall-bar" id="rainfall24hBar"></div>
-        </div>
-        <div class="rainfall-info">
+    <!-- Rainfall Widget -->
+    <div class="rainfall-widget">
+      <div class="rainfall-title">Recent Rainfall</div>
+      <div class="rainfall-stats">
+        <div class="rainfall-stat">
           <div class="rainfall-value" id="rainfall24hValue">--</div>
-          <div class="rainfall-label">Last 24 hours</div>
+          <div class="rainfall-label">Last 24 Hours</div>
         </div>
-      </div>
-      <div class="rainfall-gauge" id="rainfall72h">
-        <div class="rainfall-icon">💧</div>
-        <div class="rainfall-bar-container">
-          <div class="rainfall-bar" id="rainfall72hBar"></div>
-        </div>
-        <div class="rainfall-info">
+        <div class="rainfall-divider"></div>
+        <div class="rainfall-stat">
           <div class="rainfall-value" id="rainfall72hValue">--</div>
-          <div class="rainfall-label">Last 72 hours</div>
+          <div class="rainfall-label">Last 72 Hours</div>
         </div>
       </div>
     </div>
@@ -729,12 +752,32 @@
     <!-- Shark Attack Proximity Widgets -->
     <div class="proximity-grid">
       <div class="proximity-card">
-        <div class="proximity-value" id="attacks25kmValue">--</div>
-        <div class="proximity-label">Shark Attacks Within 25km</div>
+        <div class="proximity-title">Within 25km</div>
+        <div class="proximity-stats">
+          <div class="proximity-stat">
+            <div class="proximity-value" id="attacks25kmValue">--</div>
+            <div class="proximity-label">Total Attacks</div>
+          </div>
+          <div class="proximity-divider"></div>
+          <div class="proximity-stat">
+            <div class="proximity-value" id="attacks25km5yValue">--</div>
+            <div class="proximity-label">Last 5 Years</div>
+          </div>
+        </div>
       </div>
       <div class="proximity-card">
-        <div class="proximity-value" id="attacks50kmValue">--</div>
-        <div class="proximity-label">Shark Attacks Within 50km</div>
+        <div class="proximity-title">Within 50km</div>
+        <div class="proximity-stats">
+          <div class="proximity-stat">
+            <div class="proximity-value" id="attacks50kmValue">--</div>
+            <div class="proximity-label">Total Attacks</div>
+          </div>
+          <div class="proximity-divider"></div>
+          <div class="proximity-stat">
+            <div class="proximity-value" id="attacks50km5yValue">--</div>
+            <div class="proximity-label">Last 5 Years</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -910,10 +953,10 @@
       const weatherLocation = document.getElementById('weatherLocation');
       const rainfall24hValue = document.getElementById('rainfall24hValue');
       const rainfall72hValue = document.getElementById('rainfall72hValue');
-      const rainfall24hBar = document.getElementById('rainfall24hBar');
-      const rainfall72hBar = document.getElementById('rainfall72hBar');
       const attacks25kmValue = document.getElementById('attacks25kmValue');
+      const attacks25km5yValue = document.getElementById('attacks25km5yValue');
       const attacks50kmValue = document.getElementById('attacks50kmValue');
+      const attacks50km5yValue = document.getElementById('attacks50km5yValue');
 
       // Haversine distance calculation (returns km)
       function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -928,11 +971,16 @@
       }
 
       // Calculate attacks within radius
-      function countAttacksWithinRadius(userLat, userLon, radiusKm) {
+      function countAttacksWithinRadius(userLat, userLon, radiusKm, yearsBack = null) {
+        const currentYear = new Date().getFullYear();
+        const minYear = yearsBack ? currentYear - yearsBack : 0;
+
         return ASID_ROWS.filter(row => {
           if (!row.Latitude || !row.Longitude) return false;
           const distance = haversineDistance(userLat, userLon, row.Latitude, row.Longitude);
-          return distance <= radiusKm;
+          if (distance > radiusKm) return false;
+          if (yearsBack && row['Incident.year'] < minYear) return false;
+          return true;
         }).length;
       }
 
@@ -961,16 +1009,6 @@
       function updateRainfall(rain24h, rain72h) {
         rainfall24hValue.textContent = `${rain24h.toFixed(1)} mm`;
         rainfall72hValue.textContent = `${rain72h.toFixed(1)} mm`;
-
-        // Calculate bar heights (max 50mm for full bar)
-        const maxRain = 50;
-        const bar24hHeight = Math.min((rain24h / maxRain) * 100, 100);
-        const bar72hHeight = Math.min((rain72h / maxRain) * 100, 100);
-
-        setTimeout(() => {
-          rainfall24hBar.style.height = `${bar24hHeight}%`;
-          rainfall72hBar.style.height = `${bar72hHeight}%`;
-        }, 500);
       }
 
       if ('geolocation' in navigator) {
@@ -980,9 +1018,13 @@
 
             // Calculate nearby shark attacks
             const attacks25km = countAttacksWithinRadius(latitude, longitude, 25);
+            const attacks25km5y = countAttacksWithinRadius(latitude, longitude, 25, 5);
             const attacks50km = countAttacksWithinRadius(latitude, longitude, 50);
+            const attacks50km5y = countAttacksWithinRadius(latitude, longitude, 50, 5);
             attacks25kmValue.textContent = attacks25km.toLocaleString();
+            attacks25km5yValue.textContent = attacks25km5y.toLocaleString();
             attacks50kmValue.textContent = attacks50km.toLocaleString();
+            attacks50km5yValue.textContent = attacks50km5y.toLocaleString();
 
             try {
               // Fetch weather and hourly precipitation from Open-Meteo
@@ -1047,7 +1089,9 @@
             rainfall24hValue.textContent = '--';
             rainfall72hValue.textContent = '--';
             attacks25kmValue.textContent = '--';
+            attacks25km5yValue.textContent = '--';
             attacks50kmValue.textContent = '--';
+            attacks50km5yValue.textContent = '--';
           },
           { timeout: 10000 }
         );
@@ -1057,7 +1101,9 @@
         rainfall24hValue.textContent = '--';
         rainfall72hValue.textContent = '--';
         attacks25kmValue.textContent = '--';
+        attacks25km5yValue.textContent = '--';
         attacks50kmValue.textContent = '--';
+        attacks50km5yValue.textContent = '--';
       }
     }
 
