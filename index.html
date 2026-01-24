@@ -328,60 +328,61 @@
     }
 
     /* Shark Attack Proximity Widgets */
-    .proximity-container {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 0.8s ease-out 1.2s forwards;
+    .proximity-grid {
+      max-width: 1400px;
+      margin: 3rem auto 0;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
     }
 
-    .proximity-widget {
-      background: linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 149, 0, 0.08) 100%);
-      border: 1px solid rgba(255, 59, 48, 0.25);
-      border-radius: 16px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
+    .proximity-card {
+      background: linear-gradient(135deg, rgba(45, 45, 47, 0.4) 0%, rgba(29, 29, 31, 0.4) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      min-width: 180px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out 1.2s forwards;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .proximity-icon {
-      font-size: 2rem;
-      line-height: 1;
+    .proximity-card:nth-child(2) {
+      animation-delay: 1.4s;
     }
 
-    .proximity-info {
-      flex: 1;
+    .proximity-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255, 59, 48, 0.5);
+      box-shadow: 0 20px 60px rgba(255, 59, 48, 0.2);
     }
 
     .proximity-value {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.2;
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff3b30 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .proximity-label {
-      font-size: 0.75rem;
+      font-size: 1.1rem;
       color: var(--text-secondary);
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.03em;
-      margin-top: 0.2rem;
+      letter-spacing: 0.05em;
     }
 
-    @media (max-width: 500px) {
-      .proximity-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      .proximity-widget {
-        min-width: 200px;
+    @media (max-width: 600px) {
+      .proximity-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
       }
     }
 
@@ -726,20 +727,14 @@
     </div>
 
     <!-- Shark Attack Proximity Widgets -->
-    <div class="proximity-container">
-      <div class="proximity-widget" id="proximity50km">
-        <div class="proximity-icon">🦈</div>
-        <div class="proximity-info">
-          <div class="proximity-value" id="attacks50kmValue">--</div>
-          <div class="proximity-label">Attacks within 50km</div>
-        </div>
+    <div class="proximity-grid">
+      <div class="proximity-card">
+        <div class="proximity-value" id="attacks25kmValue">--</div>
+        <div class="proximity-label">Shark Attacks Within 25km</div>
       </div>
-      <div class="proximity-widget" id="proximity100km">
-        <div class="proximity-icon">🦈</div>
-        <div class="proximity-info">
-          <div class="proximity-value" id="attacks100kmValue">--</div>
-          <div class="proximity-label">Attacks within 100km</div>
-        </div>
+      <div class="proximity-card">
+        <div class="proximity-value" id="attacks50kmValue">--</div>
+        <div class="proximity-label">Shark Attacks Within 50km</div>
       </div>
     </div>
   </section>
@@ -917,8 +912,8 @@
       const rainfall72hValue = document.getElementById('rainfall72hValue');
       const rainfall24hBar = document.getElementById('rainfall24hBar');
       const rainfall72hBar = document.getElementById('rainfall72hBar');
+      const attacks25kmValue = document.getElementById('attacks25kmValue');
       const attacks50kmValue = document.getElementById('attacks50kmValue');
-      const attacks100kmValue = document.getElementById('attacks100kmValue');
 
       // Haversine distance calculation (returns km)
       function haversineDistance(lat1, lon1, lat2, lon2) {
@@ -984,10 +979,10 @@
             const { latitude, longitude } = position.coords;
 
             // Calculate nearby shark attacks
+            const attacks25km = countAttacksWithinRadius(latitude, longitude, 25);
             const attacks50km = countAttacksWithinRadius(latitude, longitude, 50);
-            const attacks100km = countAttacksWithinRadius(latitude, longitude, 100);
+            attacks25kmValue.textContent = attacks25km.toLocaleString();
             attacks50kmValue.textContent = attacks50km.toLocaleString();
-            attacks100kmValue.textContent = attacks100km.toLocaleString();
 
             try {
               // Fetch weather and hourly precipitation from Open-Meteo
@@ -1051,8 +1046,8 @@
             weatherLocation.textContent = 'Enable location for weather';
             rainfall24hValue.textContent = '--';
             rainfall72hValue.textContent = '--';
+            attacks25kmValue.textContent = '--';
             attacks50kmValue.textContent = '--';
-            attacks100kmValue.textContent = '--';
           },
           { timeout: 10000 }
         );
@@ -1061,8 +1056,8 @@
         weatherLocation.textContent = '';
         rainfall24hValue.textContent = '--';
         rainfall72hValue.textContent = '--';
+        attacks25kmValue.textContent = '--';
         attacks50kmValue.textContent = '--';
-        attacks100kmValue.textContent = '--';
       }
     }
 
