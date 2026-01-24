@@ -327,6 +327,64 @@
       }
     }
 
+    /* Shark Attack Proximity Widgets */
+    .proximity-container {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.8s ease-out 1.2s forwards;
+    }
+
+    .proximity-widget {
+      background: linear-gradient(135deg, rgba(255, 59, 48, 0.15) 0%, rgba(255, 149, 0, 0.08) 100%);
+      border: 1px solid rgba(255, 59, 48, 0.25);
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      min-width: 180px;
+    }
+
+    .proximity-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .proximity-info {
+      flex: 1;
+    }
+
+    .proximity-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .proximity-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      margin-top: 0.2rem;
+    }
+
+    @media (max-width: 500px) {
+      .proximity-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .proximity-widget {
+        min-width: 200px;
+      }
+    }
+
     /* Content Section */
     .content-section {
       padding: 6rem 2rem;
@@ -666,6 +724,24 @@
         </div>
       </div>
     </div>
+
+    <!-- Shark Attack Proximity Widgets -->
+    <div class="proximity-container">
+      <div class="proximity-widget" id="proximity50km">
+        <div class="proximity-icon">🦈</div>
+        <div class="proximity-info">
+          <div class="proximity-value" id="attacks50kmValue">--</div>
+          <div class="proximity-label">Attacks within 50km</div>
+        </div>
+      </div>
+      <div class="proximity-widget" id="proximity100km">
+        <div class="proximity-icon">🦈</div>
+        <div class="proximity-info">
+          <div class="proximity-value" id="attacks100kmValue">--</div>
+          <div class="proximity-label">Attacks within 100km</div>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- Data Explorer Section -->
@@ -841,6 +917,29 @@
       const rainfall72hValue = document.getElementById('rainfall72hValue');
       const rainfall24hBar = document.getElementById('rainfall24hBar');
       const rainfall72hBar = document.getElementById('rainfall72hBar');
+      const attacks50kmValue = document.getElementById('attacks50kmValue');
+      const attacks100kmValue = document.getElementById('attacks100kmValue');
+
+      // Haversine distance calculation (returns km)
+      function haversineDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Earth's radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+      }
+
+      // Calculate attacks within radius
+      function countAttacksWithinRadius(userLat, userLon, radiusKm) {
+        return ASID_ROWS.filter(row => {
+          if (!row.Latitude || !row.Longitude) return false;
+          const distance = haversineDistance(userLat, userLon, row.Latitude, row.Longitude);
+          return distance <= radiusKm;
+        }).length;
+      }
 
       // Weather code to emoji mapping
       const weatherEmojis = {
@@ -883,6 +982,13 @@
         navigator.geolocation.getCurrentPosition(
           async (position) => {
             const { latitude, longitude } = position.coords;
+
+            // Calculate nearby shark attacks
+            const attacks50km = countAttacksWithinRadius(latitude, longitude, 50);
+            const attacks100km = countAttacksWithinRadius(latitude, longitude, 100);
+            attacks50kmValue.textContent = attacks50km.toLocaleString();
+            attacks100kmValue.textContent = attacks100km.toLocaleString();
+
             try {
               // Fetch weather and hourly precipitation from Open-Meteo
               const response = await fetch(
@@ -945,6 +1051,8 @@
             weatherLocation.textContent = 'Enable location for weather';
             rainfall24hValue.textContent = '--';
             rainfall72hValue.textContent = '--';
+            attacks50kmValue.textContent = '--';
+            attacks100kmValue.textContent = '--';
           },
           { timeout: 10000 }
         );
@@ -953,6 +1061,8 @@
         weatherLocation.textContent = '';
         rainfall24hValue.textContent = '--';
         rainfall72hValue.textContent = '--';
+        attacks50kmValue.textContent = '--';
+        attacks100kmValue.textContent = '--';
       }
     }
 
