@@ -417,6 +417,208 @@
       }
     }
 
+    /* SERI (Shark Encounter Risk Index) Card */
+    .seri-card {
+      max-width: 1400px;
+      margin: 2rem auto 0;
+      background: linear-gradient(135deg, rgba(45, 45, 47, 0.5) 0%, rgba(29, 29, 31, 0.5) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 24px;
+      padding: 2rem 2.5rem;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-out 0.9s forwards;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .seri-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .seri-card.risk-low { border-color: rgba(48, 209, 88, 0.5); }
+    .seri-card.risk-low:hover { box-shadow: 0 20px 60px rgba(48, 209, 88, 0.2); }
+    .seri-card.risk-moderate { border-color: rgba(255, 214, 10, 0.5); }
+    .seri-card.risk-moderate:hover { box-shadow: 0 20px 60px rgba(255, 214, 10, 0.2); }
+    .seri-card.risk-high { border-color: rgba(255, 149, 0, 0.5); }
+    .seri-card.risk-high:hover { box-shadow: 0 20px 60px rgba(255, 149, 0, 0.2); }
+    .seri-card.risk-extreme { border-color: rgba(255, 59, 48, 0.5); }
+    .seri-card.risk-extreme:hover { box-shadow: 0 20px 60px rgba(255, 59, 48, 0.2); }
+
+    .seri-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .seri-title {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .seri-content {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .seri-score-section {
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .seri-score {
+      font-size: clamp(3.5rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+
+    .seri-score.risk-low { color: #30d158; }
+    .seri-score.risk-moderate { color: #ffd60a; }
+    .seri-score.risk-high { color: #ff9500; }
+    .seri-score.risk-extreme { color: #ff3b30; }
+
+    .seri-label {
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .seri-label.risk-low { color: #30d158; }
+    .seri-label.risk-moderate { color: #ffd60a; }
+    .seri-label.risk-high { color: #ff9500; }
+    .seri-label.risk-extreme { color: #ff3b30; }
+
+    .seri-gauge-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .seri-gauge-container {
+      position: relative;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .seri-gauge-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      border-radius: 12px;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.4s ease;
+    }
+
+    .seri-gauge-fill.risk-low {
+      background: linear-gradient(90deg, #30d158 0%, #34c759 100%);
+      box-shadow: 0 0 20px rgba(48, 209, 88, 0.4);
+    }
+
+    .seri-gauge-fill.risk-moderate {
+      background: linear-gradient(90deg, #ffd60a 0%, #ffcc00 100%);
+      box-shadow: 0 0 20px rgba(255, 214, 10, 0.4);
+    }
+
+    .seri-gauge-fill.risk-high {
+      background: linear-gradient(90deg, #ff9500 0%, #ff9f0a 100%);
+      box-shadow: 0 0 20px rgba(255, 149, 0, 0.4);
+    }
+
+    .seri-gauge-fill.risk-extreme {
+      background: linear-gradient(90deg, #ff3b30 0%, #ff453a 100%);
+      box-shadow: 0 0 20px rgba(255, 59, 48, 0.5);
+    }
+
+    .seri-gauge-markers {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0.25rem;
+    }
+
+    .seri-gauge-marker {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .seri-factors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .seri-factor-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.4rem 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .seri-factor-chip.active {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: var(--text-primary);
+    }
+
+    .seri-factor-icon {
+      font-size: 0.85rem;
+    }
+
+    .seri-disclaimer {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-style: italic;
+      opacity: 0.7;
+    }
+
+    .seri-loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 600px) {
+      .seri-card {
+        margin: 2rem 1rem 0;
+        padding: 1.5rem;
+      }
+      .seri-content {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .seri-score-section {
+        min-width: auto;
+      }
+      .seri-gauge-section {
+        width: 100%;
+      }
+      .seri-factors {
+        justify-content: center;
+      }
+    }
+
     /* Content Section */
     .content-section {
       padding: 6rem 2rem;
@@ -746,6 +948,40 @@
           <div class="rainfall-value" id="rainfall72hValue">--</div>
           <div class="rainfall-label">Last 72 Hours</div>
         </div>
+      </div>
+    </div>
+
+    <!-- SERI (Shark Encounter Risk Index) Card -->
+    <div class="seri-card" id="seriCard">
+      <div class="seri-header">
+        <div class="seri-title">Shark Encounter Risk Index (SERI)</div>
+      </div>
+      <div class="seri-loading" id="seriLoading">
+        Calculating risk index...
+      </div>
+      <div class="seri-content" id="seriContent" style="display: none;">
+        <div class="seri-score-section">
+          <div class="seri-score" id="seriScore">--</div>
+          <div class="seri-label" id="seriLabel">--</div>
+        </div>
+        <div class="seri-gauge-section">
+          <div class="seri-gauge-container">
+            <div class="seri-gauge-fill" id="seriGaugeFill" style="width: 0%;"></div>
+          </div>
+          <div class="seri-gauge-markers">
+            <span class="seri-gauge-marker">0</span>
+            <span class="seri-gauge-marker">25</span>
+            <span class="seri-gauge-marker">50</span>
+            <span class="seri-gauge-marker">75</span>
+            <span class="seri-gauge-marker">100</span>
+          </div>
+          <div class="seri-factors" id="seriFactors">
+            <!-- Factor chips will be inserted here by JS -->
+          </div>
+        </div>
+      </div>
+      <div class="seri-disclaimer">
+        Indicative only. Environmental conditions and wildlife behaviour are unpredictable.
       </div>
     </div>
 
@@ -1109,6 +1345,324 @@
 
     // Initialize weather widget
     initWeatherWidget();
+
+    // =====================================================
+    // SERI (Shark Encounter Risk Index) Implementation
+    // =====================================================
+    //
+    // SERI calculates an indicative risk score (0-100) based on:
+    // - Recent rainfall (higher rainfall = higher risk due to runoff)
+    // - Time of day (dawn/dusk = higher risk)
+    // - Local incident history (more incidents = higher baseline risk)
+    //
+    // This is NOT a prediction of shark behaviour. It is a composite
+    // index of environmental factors correlated with encounter risk.
+    // =====================================================
+
+    /**
+     * Clamp a value between min and max
+     */
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    /**
+     * Parse numeric value from DOM element text (e.g., "12.5 mm" -> 12.5)
+     */
+    function parseNumericValue(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return null;
+      const text = el.textContent.trim();
+      if (text === '--' || text === '') return null;
+      const match = text.match(/[\d.]+/);
+      return match ? parseFloat(match[0]) : null;
+    }
+
+    /**
+     * Get SERI input values from DOM
+     * Returns object with r24, r72, last5Years25km, last5Years50km, totalAttacks
+     */
+    function getSERIInputs() {
+      return {
+        r24: parseNumericValue('rainfall24hValue'),
+        r72: parseNumericValue('rainfall72hValue'),
+        last5Years25km: parseNumericValue('attacks25km5yValue'),
+        last5Years50km: parseNumericValue('attacks50km5yValue'),
+        totalAttacks25km: parseNumericValue('attacks25kmValue'),
+        totalAttacks50km: parseNumericValue('attacks50kmValue')
+      };
+    }
+
+    /**
+     * Calculate rainfall factor (0-1)
+     * Higher rainfall = higher risk (runoff affects water clarity, nutrients)
+     */
+    function calculateRainfallScore(r24, r72) {
+      if (r24 === null && r72 === null) return null;
+      const rain24 = r24 || 0;
+      const rain72 = r72 || 0;
+      // Formula: 65% weight on 24h, 35% weight on 72h
+      // 30mm in 24h or 60mm in 72h = max factor
+      return clamp((rain24 / 30) * 0.65 + (rain72 / 60) * 0.35, 0, 1);
+    }
+
+    /**
+     * Calculate time-of-day factor (0-1)
+     * Dawn/dusk = highest risk, midday = lowest risk
+     */
+    function calculateTimeScore() {
+      const now = new Date();
+      const hour = now.getHours();
+
+      // Dawn (05:00-07:00) and Dusk (17:00-19:00) = highest risk
+      if ((hour >= 5 && hour < 7) || (hour >= 17 && hour < 19)) {
+        return 1.0;
+      }
+      // Night (20:00-05:00) = elevated risk
+      if (hour >= 20 || hour < 5) {
+        return 0.8;
+      }
+      // Transition periods (05:00-09:00, 16:00-20:00) = moderate risk
+      if ((hour >= 5 && hour < 9) || (hour >= 16 && hour < 20)) {
+        return 0.55;
+      }
+      // Midday (09:00-16:00) = lowest risk
+      return 0.25;
+    }
+
+    /**
+     * Get time period label for current hour
+     */
+    function getTimePeriodLabel() {
+      const hour = new Date().getHours();
+      if ((hour >= 5 && hour < 7) || (hour >= 17 && hour < 19)) return 'Dawn/Dusk';
+      if (hour >= 20 || hour < 5) return 'Night';
+      if ((hour >= 5 && hour < 9) || (hour >= 16 && hour < 20)) return 'Transition';
+      return 'Midday';
+    }
+
+    /**
+     * Calculate incident history factor (0-1)
+     * Uses last 5 years within 25km (preferred) or 50km (fallback)
+     */
+    function calculateIncidentScore(inputs) {
+      // Prefer 25km last 5 years data
+      if (inputs.last5Years25km !== null) {
+        return clamp(inputs.last5Years25km / 10, 0, 1);
+      }
+      // Fallback to 50km last 5 years
+      if (inputs.last5Years50km !== null) {
+        return clamp(inputs.last5Years50km / 10, 0, 1);
+      }
+      // Final fallback: total attacks (use much higher divisor)
+      if (inputs.totalAttacks25km !== null) {
+        return clamp(inputs.totalAttacks25km / 200, 0, 1);
+      }
+      if (inputs.totalAttacks50km !== null) {
+        return clamp(inputs.totalAttacks50km / 200, 0, 1);
+      }
+      return null;
+    }
+
+    /**
+     * Calculate final SERI score (0-100)
+     * Weights: 45% rainfall, 35% time-of-day, 20% incident history
+     */
+    function calculateSERI() {
+      const inputs = getSERIInputs();
+      const rainScore = calculateRainfallScore(inputs.r24, inputs.r72);
+      const timeScore = calculateTimeScore();
+      const incidentScore = calculateIncidentScore(inputs);
+
+      // If we don't have enough data, return null
+      if (rainScore === null && incidentScore === null) {
+        return null;
+      }
+
+      // Use available scores with adjusted weights if some are missing
+      let totalWeight = 0;
+      let weightedSum = 0;
+
+      if (rainScore !== null) {
+        weightedSum += 0.45 * rainScore;
+        totalWeight += 0.45;
+      }
+
+      // Time score is always available (client-side)
+      weightedSum += 0.35 * timeScore;
+      totalWeight += 0.35;
+
+      if (incidentScore !== null) {
+        weightedSum += 0.20 * incidentScore;
+        totalWeight += 0.20;
+      }
+
+      // Normalize if not all factors available
+      const normalizedScore = totalWeight > 0 ? weightedSum / totalWeight : 0;
+      const seriScore = Math.round(100 * normalizedScore);
+
+      return {
+        score: seriScore,
+        rainScore: rainScore,
+        timeScore: timeScore,
+        incidentScore: incidentScore,
+        inputs: inputs
+      };
+    }
+
+    /**
+     * Get risk band from SERI score
+     */
+    function getRiskBand(score) {
+      if (score < 25) return { label: 'LOW', class: 'risk-low' };
+      if (score < 50) return { label: 'MODERATE', class: 'risk-moderate' };
+      if (score < 75) return { label: 'HIGH', class: 'risk-high' };
+      return { label: 'EXTREME', class: 'risk-extreme' };
+    }
+
+    /**
+     * Generate factor chips based on component scores
+     */
+    function generateFactorChips(result) {
+      const factors = [];
+
+      // Collect all factors with their scores
+      if (result.rainScore !== null) {
+        factors.push({
+          icon: '🌧️',
+          label: 'Recent rainfall',
+          score: result.rainScore,
+          active: result.rainScore >= 0.6
+        });
+      }
+
+      factors.push({
+        icon: getTimeIcon(),
+        label: getTimePeriodLabel(),
+        score: result.timeScore,
+        active: result.timeScore >= 0.6
+      });
+
+      if (result.incidentScore !== null) {
+        factors.push({
+          icon: '📍',
+          label: 'Local incident history',
+          score: result.incidentScore,
+          active: result.incidentScore >= 0.6
+        });
+      }
+
+      // If no factors are >= 0.6, show top 2 contributors
+      const activeCount = factors.filter(f => f.active).length;
+      if (activeCount === 0) {
+        factors.sort((a, b) => b.score - a.score);
+        if (factors.length >= 1) factors[0].active = true;
+        if (factors.length >= 2) factors[1].active = true;
+      }
+
+      return factors;
+    }
+
+    /**
+     * Get appropriate icon for current time period
+     */
+    function getTimeIcon() {
+      const hour = new Date().getHours();
+      if ((hour >= 5 && hour < 7) || (hour >= 17 && hour < 19)) return '🌅';
+      if (hour >= 20 || hour < 5) return '🌙';
+      return '☀️';
+    }
+
+    /**
+     * Render the SERI card with current data
+     */
+    function renderSERICard() {
+      const seriCard = document.getElementById('seriCard');
+      const seriLoading = document.getElementById('seriLoading');
+      const seriContent = document.getElementById('seriContent');
+      const seriScore = document.getElementById('seriScore');
+      const seriLabel = document.getElementById('seriLabel');
+      const seriGaugeFill = document.getElementById('seriGaugeFill');
+      const seriFactors = document.getElementById('seriFactors');
+
+      if (!seriCard) return;
+
+      const result = calculateSERI();
+
+      if (result === null) {
+        seriLoading.textContent = 'Waiting for location data...';
+        seriLoading.style.display = 'block';
+        seriContent.style.display = 'none';
+        return;
+      }
+
+      const risk = getRiskBand(result.score);
+      const factors = generateFactorChips(result);
+
+      // Update card border color
+      seriCard.className = 'seri-card ' + risk.class;
+
+      // Update score display
+      seriScore.textContent = result.score;
+      seriScore.className = 'seri-score ' + risk.class;
+
+      // Update label
+      seriLabel.textContent = risk.label;
+      seriLabel.className = 'seri-label ' + risk.class;
+
+      // Update gauge
+      seriGaugeFill.style.width = result.score + '%';
+      seriGaugeFill.className = 'seri-gauge-fill ' + risk.class;
+
+      // Update factor chips
+      seriFactors.innerHTML = factors.map(f =>
+        `<span class="seri-factor-chip${f.active ? ' active' : ''}">
+          <span class="seri-factor-icon">${f.icon}</span>
+          ${f.label}
+        </span>`
+      ).join('');
+
+      // Show content, hide loading
+      seriLoading.style.display = 'none';
+      seriContent.style.display = 'flex';
+    }
+
+    /**
+     * Initialize SERI with MutationObserver for automatic updates
+     */
+    function initSERI() {
+      // Initial render
+      renderSERICard();
+
+      // Setup MutationObserver to watch for changes in rainfall and attack values
+      const observerTargets = [
+        'rainfall24hValue',
+        'rainfall72hValue',
+        'attacks25kmValue',
+        'attacks25km5yValue',
+        'attacks50kmValue',
+        'attacks50km5yValue'
+      ];
+
+      const observer = new MutationObserver((mutations) => {
+        // Debounce updates
+        clearTimeout(window.seriUpdateTimeout);
+        window.seriUpdateTimeout = setTimeout(renderSERICard, 100);
+      });
+
+      observerTargets.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          observer.observe(el, { childList: true, characterData: true, subtree: true });
+        }
+      });
+
+      // Also update every minute to reflect time-of-day changes
+      setInterval(renderSERICard, 60000);
+    }
+
+    // Initialize SERI after a short delay to allow other widgets to populate
+    setTimeout(initSERI, 500);
 
     // Setup filters
     function setupFilters() {
