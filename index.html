@@ -599,6 +599,124 @@
       color: var(--text-secondary);
     }
 
+    /* Water Quality Control */
+    .seri-water-quality {
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .seri-wq-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .seri-wq-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .seri-wq-icon {
+      font-size: 1rem;
+    }
+
+    .seri-wq-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      min-width: 90px;
+      text-align: right;
+    }
+
+    .seri-wq-value.quality-excellent { color: #30d158; }
+    .seri-wq-value.quality-good { color: #34c759; }
+    .seri-wq-value.quality-fair { color: #ffd60a; }
+    .seri-wq-value.quality-poor { color: #ff9500; }
+    .seri-wq-value.quality-verypoor { color: #ff3b30; }
+
+    .seri-wq-slider-container {
+      position: relative;
+      height: 32px;
+      display: flex;
+      align-items: center;
+    }
+
+    .seri-wq-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg,
+        #30d158 0%,
+        #34c759 25%,
+        #ffd60a 50%,
+        #ff9500 75%,
+        #ff3b30 100%
+      );
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .seri-wq-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      background: var(--text-primary);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .seri-wq-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(255, 255, 255, 0.2);
+    }
+
+    .seri-wq-slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      background: var(--text-primary);
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.1);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .seri-wq-slider::-moz-range-thumb:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(255, 255, 255, 0.2);
+    }
+
+    .seri-wq-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .seri-wq-labels span {
+      opacity: 0.7;
+    }
+
+    .seri-wq-description {
+      margin-top: 0.75rem;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      text-align: center;
+      opacity: 0.8;
+    }
+
     @media (max-width: 600px) {
       .seri-card {
         margin: 2rem 1rem 0;
@@ -616,6 +734,13 @@
       }
       .seri-factors {
         justify-content: center;
+      }
+      .seri-wq-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .seri-wq-value {
+        min-width: auto;
       }
     }
 
@@ -978,6 +1103,35 @@
           <div class="seri-factors" id="seriFactors">
             <!-- Factor chips will be inserted here by JS -->
           </div>
+        </div>
+      </div>
+      <!-- Water Quality Adjustment Control -->
+      <div class="seri-water-quality" id="seriWaterQuality" style="display: none;">
+        <div class="seri-wq-header">
+          <span class="seri-wq-label">
+            <span class="seri-wq-icon">💧</span>
+            Water Quality Index
+          </span>
+          <span class="seri-wq-value" id="seriWqValue">Good (75)</span>
+        </div>
+        <div class="seri-wq-slider-container">
+          <input type="range"
+                 class="seri-wq-slider"
+                 id="seriWqSlider"
+                 min="0"
+                 max="100"
+                 value="75"
+                 aria-label="Water Quality Index">
+        </div>
+        <div class="seri-wq-labels">
+          <span>Very Poor</span>
+          <span>Poor</span>
+          <span>Fair</span>
+          <span>Good</span>
+          <span>Excellent</span>
+        </div>
+        <div class="seri-wq-description">
+          Adjust based on observed conditions: visibility, debris, discoloration, algae
         </div>
       </div>
       <div class="seri-disclaimer">
@@ -1354,6 +1508,7 @@
     // - Recent rainfall (higher rainfall = higher risk due to runoff)
     // - Time of day (dawn/dusk = higher risk)
     // - Local incident history (more incidents = higher baseline risk)
+    // - Water quality index (user-adjustable, poor quality = higher risk)
     //
     // This is NOT a prediction of shark behaviour. It is a composite
     // index of environmental factors correlated with encounter risk.
@@ -1465,14 +1620,59 @@
     }
 
     /**
+     * Get water quality value from slider (0-100)
+     * Returns the raw slider value
+     */
+    function getWaterQualityValue() {
+      const slider = document.getElementById('seriWqSlider');
+      return slider ? parseInt(slider.value, 10) : 75;
+    }
+
+    /**
+     * Calculate water quality factor (0-1)
+     * Lower water quality = higher risk
+     * Slider: 0 = very poor (risk 1.0), 100 = excellent (risk 0.0)
+     */
+    function calculateWaterQualityScore() {
+      const wqValue = getWaterQualityValue();
+      // Invert: low quality (0) = high risk (1), high quality (100) = low risk (0)
+      return 1 - (wqValue / 100);
+    }
+
+    /**
+     * Get water quality label and CSS class based on value
+     */
+    function getWaterQualityInfo(value) {
+      if (value >= 80) return { label: 'Excellent', class: 'quality-excellent' };
+      if (value >= 60) return { label: 'Good', class: 'quality-good' };
+      if (value >= 40) return { label: 'Fair', class: 'quality-fair' };
+      if (value >= 20) return { label: 'Poor', class: 'quality-poor' };
+      return { label: 'Very Poor', class: 'quality-verypoor' };
+    }
+
+    /**
+     * Update water quality display label
+     */
+    function updateWaterQualityDisplay() {
+      const value = getWaterQualityValue();
+      const info = getWaterQualityInfo(value);
+      const display = document.getElementById('seriWqValue');
+      if (display) {
+        display.textContent = `${info.label} (${value})`;
+        display.className = 'seri-wq-value ' + info.class;
+      }
+    }
+
+    /**
      * Calculate final SERI score (0-100)
-     * Weights: 45% rainfall, 35% time-of-day, 20% incident history
+     * Weights: 35% rainfall, 25% time-of-day, 15% incident history, 25% water quality
      */
     function calculateSERI() {
       const inputs = getSERIInputs();
       const rainScore = calculateRainfallScore(inputs.r24, inputs.r72);
       const timeScore = calculateTimeScore();
       const incidentScore = calculateIncidentScore(inputs);
+      const waterQualityScore = calculateWaterQualityScore();
 
       // If we don't have enough data, return null
       if (rainScore === null && incidentScore === null) {
@@ -1480,22 +1680,27 @@
       }
 
       // Use available scores with adjusted weights if some are missing
+      // Base weights: rainfall 35%, time 25%, incidents 15%, water quality 25%
       let totalWeight = 0;
       let weightedSum = 0;
 
       if (rainScore !== null) {
-        weightedSum += 0.45 * rainScore;
-        totalWeight += 0.45;
+        weightedSum += 0.35 * rainScore;
+        totalWeight += 0.35;
       }
 
       // Time score is always available (client-side)
-      weightedSum += 0.35 * timeScore;
-      totalWeight += 0.35;
+      weightedSum += 0.25 * timeScore;
+      totalWeight += 0.25;
 
       if (incidentScore !== null) {
-        weightedSum += 0.20 * incidentScore;
-        totalWeight += 0.20;
+        weightedSum += 0.15 * incidentScore;
+        totalWeight += 0.15;
       }
+
+      // Water quality score is always available (user-controlled)
+      weightedSum += 0.25 * waterQualityScore;
+      totalWeight += 0.25;
 
       // Normalize if not all factors available
       const normalizedScore = totalWeight > 0 ? weightedSum / totalWeight : 0;
@@ -1506,6 +1711,8 @@
         rainScore: rainScore,
         timeScore: timeScore,
         incidentScore: incidentScore,
+        waterQualityScore: waterQualityScore,
+        waterQualityValue: getWaterQualityValue(),
         inputs: inputs
       };
     }
@@ -1552,6 +1759,17 @@
         });
       }
 
+      // Water quality factor (inverted: high score means poor quality = higher risk)
+      if (result.waterQualityScore !== undefined) {
+        const wqInfo = getWaterQualityInfo(result.waterQualityValue);
+        factors.push({
+          icon: '💧',
+          label: `Water: ${wqInfo.label}`,
+          score: result.waterQualityScore,
+          active: result.waterQualityScore >= 0.6
+        });
+      }
+
       // If no factors are >= 0.6, show top 2 contributors
       const activeCount = factors.filter(f => f.active).length;
       if (activeCount === 0) {
@@ -1584,6 +1802,7 @@
       const seriLabel = document.getElementById('seriLabel');
       const seriGaugeFill = document.getElementById('seriGaugeFill');
       const seriFactors = document.getElementById('seriFactors');
+      const seriWaterQuality = document.getElementById('seriWaterQuality');
 
       if (!seriCard) return;
 
@@ -1593,6 +1812,7 @@
         seriLoading.textContent = 'Waiting for location data...';
         seriLoading.style.display = 'block';
         seriContent.style.display = 'none';
+        if (seriWaterQuality) seriWaterQuality.style.display = 'none';
         return;
       }
 
@@ -1625,6 +1845,7 @@
       // Show content, hide loading
       seriLoading.style.display = 'none';
       seriContent.style.display = 'flex';
+      if (seriWaterQuality) seriWaterQuality.style.display = 'block';
     }
 
     /**
@@ -1632,7 +1853,17 @@
      */
     function initSERI() {
       // Initial render
+      updateWaterQualityDisplay();
       renderSERICard();
+
+      // Setup water quality slider event listener
+      const wqSlider = document.getElementById('seriWqSlider');
+      if (wqSlider) {
+        wqSlider.addEventListener('input', function() {
+          updateWaterQualityDisplay();
+          renderSERICard();
+        });
+      }
 
       // Setup MutationObserver to watch for changes in rainfall and attack values
       const observerTargets = [
